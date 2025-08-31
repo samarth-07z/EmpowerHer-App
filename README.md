@@ -22,7 +22,6 @@
 ## 🌟 Table of Contents
 
 - [✨ Features](#-features)
-- [🚀 Quick Start](#-quick-start)
 - [🛠️ Installation](#️-installation)
 - [📱 How to Use](#-how-to-use)
 - [🔧 Technical Details](#-technical-details)
@@ -112,16 +111,6 @@
 - **🌟 Success Stories** and inspiration
 - **🔗 Networking Opportunities**
 
----
-
-## 🚀 Quick Start
-
-<div align="center">
-
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-View%20Now-brightgreen?style=for-the-badge&logo=play-circle&logoColor=white)](https://your-demo-link.com)
-[![Get Started](https://img.shields.io/badge/Get%20Started-5%20min%20setup-blue?style=for-the-badge&logo=rocket&logoColor=white)](#️-installation)
-
-</div>
 
 ---
 
