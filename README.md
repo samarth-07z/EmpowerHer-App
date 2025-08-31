@@ -28,7 +28,6 @@
 - [🔧 Technical Details](#-technical-details)
 - [📁 Project Structure](#-project-structure)
 - [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
 - [🙏 Acknowledgments](#-acknowledgments)
 
 ---
@@ -319,15 +318,8 @@ We welcome contributions from the community! Here's how you can help:
 
 ---
 
-## 📄 License
-
-<div align="center">
-
-[![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
-
 </div>
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ---
 
@@ -335,7 +327,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 <div align="center">
 
-[![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge)](https://github.com/yourusername/empowerher)
+[![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red?style=for-the-badge)](https://github.com/samarth-07z/EmpowerHer-App)
 
 </div>
 
@@ -363,17 +355,16 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 If you find this project helpful, please give it a ⭐ star on GitHub!
 
-[![GitHub Stars](https://img.shields.io/github/stars/yourusername/empowerher?style=social)](https://github.com/yourusername/empowerher)
+[![GitHub Stars](https://img.shields.io/github/stars/yourusername/empowerher?style=social)](https://github.com/samarth-07z/EmpowerHer-App)
 
 ## 📞 **Get in Touch**
 
-[![Email](https://img.shields.io/badge/Email-Contact%20Us-blue?style=for-the-badge&logo=gmail&logoColor=white)](mailto:your-email@example.com)
-[![Twitter](https://img.shields.io/badge/Twitter-Follow%20Us-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/yourusername)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect%20With%20Us-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/yourusername)
+[![Email](https://img.shields.io/badge/Email-Contact%20Us-blue?style=for-the-badge&logo=gmail&logoColor=white)](mailto:your-samarthbusiness18@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect%20With%20Us-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/samarth07z)
 
 ---
 
-**Built with ❤️ for women's safety and empowerment**
+**Built with ❤️ for women's safety and empowerment by Z coders**
 
 *EmpowerHer - Making the world safer, one woman at a time*
 
