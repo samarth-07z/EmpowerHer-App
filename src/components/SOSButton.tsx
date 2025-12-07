@@ -286,7 +286,7 @@ Sent via EmpowerHer Safety App`;
 
       // Call the backend API to trigger Twilio calls
       try {
-        const SERVER_URL = (window as any).EMPOWERHER_SERVER_URL || 'http://localhost:5000';
+        const SERVER_URL = import.meta.env.VITE_SERVER_URL || (window as any).EMPOWERHER_SERVER_URL || 'http://localhost:5000';
         const phoneNumbers = contacts.map(c => c.phone);
 
         const response = await fetch(`${SERVER_URL}/call`, {
