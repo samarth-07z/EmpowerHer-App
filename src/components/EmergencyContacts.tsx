@@ -32,6 +32,89 @@ const EmergencyContacts = ({
     phone: '',
     relationship: ''
   });
+  const [loadingNearby, setLoadingNearby] = useState(false);
+
+  // Helper: normalize phone strings (basic)
+  const normalizePhone = (p?: string) => {
+    if (!p) return '';
+    // keep + and digits
+    const cleaned = p.replace(/[^+\d]/g, '');
+    return cleaned;
+  };
+
+  // Fetch nearby police stations using Overpass API (OpenStreetMap)
+  const addNearbyPoliceStations = async () => {
+    if (!navigator.geolocation) {
+      console.log('Geolocation not supported in this browser.');
+      return;
+    }
+
+    setLoadingNearby(true);
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      const lat = pos.coords.latitude;
+      const lon = pos.coords.longitude;
+      try {
+        // Overpass query: nodes/ways/relations with amenity=police within 3km
+        const radius = 3000; // meters
+        const query = `
+        [out:json][timeout:25];
+        (
+          node(around:${radius},${lat},${lon})["amenity"="police"];
+          way(around:${radius},${lat},${lon})["amenity"="police"];
+          relation(around:${radius},${lat},${lon})["amenity"="police"];
+        );
+        out center tags;`;
+
+        const resp = await fetch('https://overpass-api.de/api/interpreter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+          body: `data=${encodeURIComponent(query)}`,
+        });
+        if (!resp.ok) throw new Error(`Overpass error ${resp.status}`);
+        const data = await resp.json();
+        const elements = data.elements || [];
+
+        if (elements.length === 0) {
+          console.log('No nearby police stations found.');
+          setLoadingNearby(false);
+          return;
+        }
+
+        let added = 0;
+        for (const el of elements) {
+          const tags = el.tags || {};
+          const name = tags.name || tags.operator || 'Police Station';
+          const rawPhone = tags.phone || tags['contact:phone'] || tags['contact:telephone'] || tags.tel || '';
+          const phone = normalizePhone(rawPhone) || '';
+
+          // skip if we already have same phone or name in contacts
+          const exists = contacts.some(c => (phone && c.phone.replace(/[^+\d]/g, '') === phone.replace(/[^+\d]/g, '')) || c.name === name);
+          if (exists) continue;
+
+          // Only add if there's a phone number; still allow adding without phone if desired
+          if (phone) {
+            onAddContact({ name: `${name} (Police)`, phone, relationship: 'Police Station' });
+            added += 1;
+          }
+        }
+
+        if (added === 0) {
+          console.log('Found police stations but none had phone numbers to add.');
+        } else {
+          console.log(`Added ${added} police station contact(s).`);
+        }
+      } catch (e) {
+        console.error('Error fetching nearby police stations', e);
+        console.log('Error fetching nearby police stations. Try again later.');
+      } finally {
+        setLoadingNearby(false);
+      }
+    }, (err) => {
+      console.error('Geolocation error', err);
+      console.log('Unable to get location. Please allow location access.');
+      setLoadingNearby(false);
+    }, { enableHighAccuracy: true, timeout: 15000 });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,16 +148,29 @@ const EmergencyContacts = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="glass-container w-full max-w-md max-h-[90vh] overflow-y-auto">
+      <div className="glass-container relative w-full max-w-md max-h-[90vh] overflow-visible flex flex-col">
+        {/* Notification removed: only keep the Add Nearby button */}
         <div className="flex items-center justify-between mb-6 p-6 pb-0">
-          <h2 className="text-xl font-semibold">Emergency Contacts</h2>
-          <button
-            onClick={onClose}
-            className="p-2 rounded-lg hover:bg-purple-800/20 transition-colors"
-            aria-label="Close"
-          >
-            <X size={20} />
-          </button>
+          <div className="flex items-center gap-3">
+            <h2 className="text-xl font-semibold">Emergency Contacts</h2>
+            <button
+              onClick={addNearbyPoliceStations}
+              disabled={loadingNearby}
+              className="glass-button text-sm px-3 py-1 rounded-md bg-purple-800/20 text-purple-200 hover:bg-purple-700/30 flex items-center gap-2"
+              title="Find nearby police stations and add them to contacts"
+            >
+              {loadingNearby ? 'Searching...' : 'Add Nearby Police Stations'}
+            </button>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={onClose}
+              className="p-2 rounded-lg hover:bg-purple-800/20 transition-colors"
+              aria-label="Close"
+            >
+              <X size={20} />
+            </button>
+          </div>
         </div>
 
         {/* Add/Edit Form */}
@@ -145,7 +241,7 @@ const EmergencyContacts = ({
         )}
 
         {/* Contacts List */}
-        <div className="px-6 space-y-3">
+        <div className="px-6 space-y-3 pb-6 overflow-y-auto max-h-[calc(90vh-300px)]">
           {contacts.length === 0 && !isAdding ? (
             <div className="text-center py-8 text-muted-foreground">
               <User className="w-12 h-12 mx-auto mb-4 opacity-50" />
